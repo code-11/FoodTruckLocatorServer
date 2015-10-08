@@ -4,7 +4,7 @@
   "description": "Some NPM test",
   "main": "scripts/main.js",
   "scripts": {
-    "test" "node scripts/server_test.js"
+    "test": "node scripts/server_test.js",
     "start": "node scripts/main.js"
   },
   "dependencies": {
