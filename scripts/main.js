@@ -118,19 +118,20 @@ function handleRequest(req, res){
 		innerWorkings(db,req,res);
 	}
 	else if (req.method == 'GET') {
-		// fs.readFile("../../../client/www/index.html",function(error,data){
-		fs.readFile("server_test.js",function(error,data){
-			if(error){
-				console.log(error);
-			   res.writeHead(404,{"Content-type":"text/plain"});
-			   res.end("Sorry the page was not found");
-			}else{
-			   res.writeHead(202,{"Content-type":"text/html"});
-			   res.end(data);
+		// fs.readFile("../../client/www/mapview.html",function(error,data){
+		// // fs.readFile("server_test.js",function(error,data){
+		// 	if(error){
+		// 		console.log(error);
+		// 		console.log("BLAH");
+		// 	   res.writeHead(404,{"Content-type":"text/plain"});
+		// 	   res.end("Sorry the page was not found");
+		// 	}else{
+		// 	   res.writeHead(202,{"Content-type":"text/html"});
+		// 	   res.end(data);
 
-			}
-   		});
-	    // res.end('It Works!! Path Hit: ' + req.url);
+		// 	}
+  //  		});
+	    res.end('It Works!! Path Hit: ' + req.url);
 	}
 	else{
 		console.log("Got a something else:"+req.method);
