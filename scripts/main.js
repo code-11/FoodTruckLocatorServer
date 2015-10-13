@@ -118,7 +118,7 @@ function handleRequest(req, res){
 		innerWorkings(db,req,res);
 	}
 	else if (req.method == 'GET') {
-		fs.readFile("../../index.html",function(error,data){
+		fs.readFile("../../../client/www/index.html",function(error,data){
 			if(error){
 				console.log(error);
 			   res.writeHead(404,{"Content-type":"text/plain"});
