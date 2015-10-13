@@ -120,11 +120,11 @@ function handleRequest(req, res){
 	else if (req.method == 'GET') {
 		fs.readFile("../../index.html",function(error,data){
 			if(error){
-			   response.writeHead(404,{"Content-type":"text/plain"});
-			   response.end("Sorry the page was not found");
+			   res.writeHead(404,{"Content-type":"text/plain"});
+			   res.end("Sorry the page was not found");
 			}else{
-			   response.writeHead(202,{"Content-type":"text/html"});
-			   response.end(data);
+			   res.writeHead(202,{"Content-type":"text/html"});
+			   res.end(data);
 
 			}
    		});
