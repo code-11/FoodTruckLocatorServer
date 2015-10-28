@@ -40,10 +40,11 @@ var updateLocation=function(db,lat,lon,usertoken,callback){
 	// authenticate(db,usertoken,null);
 	db.collection('locations').update( 
 		{"name":usertoken},	
-		{
+		{ 
 			"name" : usertoken,
 			"lat": parseFloat(lat),
-			"lon": parseFloat(lon)
+			"lon": parseFloat(lon),
+			"timestamp" : new Date().getTime() / 1000 | 0
 		},
 		{upsert:true},
 	 function(err, result) {
@@ -115,22 +116,10 @@ function handleRequest(req, res){
 		db=DB;
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		res.setHeader("Content-Type","json");
+		console.log(req.url);
 		innerWorkings(db,req,res);
 	}
 	else if (req.method == 'GET') {
-		// fs.readFile("../../client/www/mapview.html",function(error,data){
-		// // fs.readFile("server_test.js",function(error,data){
-		// 	if(error){
-		// 		console.log(error);
-		// 		console.log("BLAH");
-		// 	   res.writeHead(404,{"Content-type":"text/plain"});
-		// 	   res.end("Sorry the page was not found");
-		// 	}else{
-		// 	   res.writeHead(202,{"Content-type":"text/html"});
-		// 	   res.end(data);
-
-		// 	}
-  //  		});
 	    res.end('It Works!! Path Hit: ' + req.url);
 	}
 	else{
