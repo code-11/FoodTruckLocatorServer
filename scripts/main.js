@@ -117,7 +117,11 @@ function handleRequest(req, res){
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		res.setHeader("Content-Type","json");
 		console.log(req.url);
-		innerWorkings(db,req,res);
+		if (req.url==="/register"){
+			console.log("Got register request");
+		}else{
+			innerWorkings(db,req,res);
+		}
 	}
 	else if (req.method == 'GET') {
 	    res.end('It Works!! Path Hit: ' + req.url);
