@@ -58,7 +58,7 @@ var updateLocation=function(db,lat,lon,usertoken,istruck,callback){
 		{upsert:true},
 	 function(err, result) {
 	    assert.equal(err, null);
-	    console.log("Updated "+usertoken+" in the locations collection.");
+	    console.log("Updated "+usertoken+" in the "+dbtag+" collection.");
 	    if (callback!=null){
 	    	callback(db);
 		}
@@ -108,7 +108,7 @@ function innerWorkings(db,req,res){
     	// var regex=/lon=([\-0-9\.]*)&lat=([\-0-9\.]*)/
         var parsed=JSON.parse(body);
         console.dir(parsed);
-        updateLocation(db,parsed.lat,parsed.lon,parsed.userid, parsed.istruck function(db){
+        updateLocation(db,parsed.lat,parsed.lon,parsed.userid, parsed.istruck, function(db){
 			console.log("After UpdateLocation");
 			getAllLocations(db,function(db,docs){
 				res.end(JSON.stringify(docs));
