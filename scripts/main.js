@@ -1,5 +1,5 @@
 var GoogleAuth = require('google-auth-library');
-var MongoClient = require('mongodb')//.MongoClient;
+var MongoClient = require('mongodb');//.MongoClient;
 var assert = require('assert');
 var http = require('http');
 var fs = require('fs');
@@ -36,15 +36,24 @@ var authenticate=function(db,token,callback){
 }
 
 
-var updateLocation=function(db,lat,lon,usertoken,callback){
+var updateLocation=function(db,lat,lon,usertoken,istruck,callback){
 	// authenticate(db,usertoken,null);
-	db.collection('locations').update( 
+	//TODO: ADD TO HISTORICAL LOCATION COLLECTION
+	var dbtag="";
+	if (istruck){
+		dbtag="trucks";
+	}else{
+		dbtag="users";
+	}
+	db.collection(dbtag).update( 
 		{"name":usertoken},	
 		{ 
 			"name" : usertoken,
-			"lat": parseFloat(lat),
-			"lon": parseFloat(lon),
-			"timestamp" : new Date().getTime() / 1000 | 0
+			"lastpos" : {
+				"lat": parseFloat(lat),
+				"lon": parseFloat(lon),
+				"timestamp" : new Date().getTime() / 1000 | 0
+			}
 		},
 		{upsert:true},
 	 function(err, result) {
@@ -63,10 +72,10 @@ var delete_as=function (db,callback){
 }
 
 var getAllLocations = function (db, callback){
-	var all_locations=db.collection('locations').find();
+	var all_locations=db.collection('trucks').find();
 	all_locations.toArray(function(err,docs){
 		assert.equal(err,null);
-		// console.log(docs);
+		console.log(docs);
 		callback(db,docs);
 	});
 }
@@ -99,7 +108,7 @@ function innerWorkings(db,req,res){
     	// var regex=/lon=([\-0-9\.]*)&lat=([\-0-9\.]*)/
         var parsed=JSON.parse(body);
         console.dir(parsed);
-        updateLocation(db,parsed.lat,parsed.lon,parsed.userid, function(db){
+        updateLocation(db,parsed.lat,parsed.lon,parsed.userid, parsed.istruck function(db){
 			console.log("After UpdateLocation");
 			getAllLocations(db,function(db,docs){
 				res.end(JSON.stringify(docs));
