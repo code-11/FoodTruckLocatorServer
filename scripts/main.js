@@ -48,11 +48,13 @@ var updateLocation=function(db,lat,lon,usertoken,istruck,callback){
 	db.collection(dbtag).update( 
 		{"name":usertoken},	
 		{ 
-			"name" : usertoken,
-			"lastpos" : {
-				"lat": parseFloat(lat),
-				"lon": parseFloat(lon),
-				"timestamp" : new Date().getTime() / 1000 | 0
+			$set: {
+				"name" : usertoken,
+				"lastpos" : {
+					"lat": parseFloat(lat),
+					"lon": parseFloat(lon),
+					"timestamp" : new Date().getTime() / 1000 | 0
+				}
 			}
 		},
 		{upsert:true},
@@ -68,7 +70,7 @@ var updateLocation=function(db,lat,lon,usertoken,istruck,callback){
 }
 
 var delete_as=function (db,callback){
-	db.collection("locations").remove({});
+	db.collection("trucks").remove({});
 }
 
 var getAllLocations = function (db, callback){
@@ -95,6 +97,44 @@ var findDocuments = function(db,callback) {
 		}
 	});
 };
+
+function registerTruck(db,req,res,callback){
+	console.log("In register Truck");
+    var body = '';
+    req.on('data', function (data) {
+        body += data;
+    });
+    req.on('end', function () {
+        var parsed=JSON.parse(body);
+        console.log(parsed);
+		db.collection("trucks").update( 
+				{"name":parsed.username},	
+				{ 	
+					"name":parsed.username,
+					"pinfo":{
+						"fname":parsed.fname,
+						"lname":parsed.lname,
+						"email":parsed.email,
+						"phone":parsed.phone
+					},
+					"tinfo":{
+						"tname":parsed.truckname,
+						"city":parsed.city,
+						"tags":parsed.tags,
+						"msg":parsed.blurb,
+						"pic":parsed.truckpic
+					}
+				},
+				{upsert:true},
+			 function(err, result) {
+			    assert.equal(err, null);
+			    console.log("Updated "+parsed.username+" in the trucks collection.");
+			    if (callback!=null){
+			    	callback(db);
+				}
+		  	});
+    });
+}
 
 function innerWorkings(db,req,res){
 	console.log("In inner Workings");
@@ -126,8 +166,10 @@ function handleRequest(req, res){
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		res.setHeader("Content-Type","json");
 		console.log(req.url);
-		if (req.url==="/register"){
-			console.log("Got register request");
+		if (req.url=="/register"){
+			registerTruck(db,req,res,function(){
+				res.end("Works");
+			});
 		}else{
 			innerWorkings(db,req,res);
 		}
