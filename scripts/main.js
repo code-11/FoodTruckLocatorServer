@@ -70,7 +70,8 @@ var getAllLocations = function (db, callback){
 	var all_locations=db.collection('trucks').find();
 	all_locations.toArray(function(err,docs){
 		assert.equal(err,null);
-		console.log("Giving client :"+docs);
+		console.log("Giving client :");
+		console.log(docs);
 		callback(db,docs);
 	});
 }
