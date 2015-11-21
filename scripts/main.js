@@ -137,10 +137,10 @@ function innerWorkings(db,req,res){
 
 function handleRequest(req, res){
 	res.setHeader("Access-Control-Allow-Origin", "*");
+	db=DB;
 	if (req.method == 'POST') {
 		console.log("Got a POST");
 		// console.log(req);
-		db=DB;
 		res.setHeader("Content-Type","json");
 		console.log(req.url);
 		if (req.url=="/register"){
@@ -152,11 +152,11 @@ function handleRequest(req, res){
 		}
 	}
 	else if (req.method == 'GET') {
+		console.log("Got a GET");
 		if(req.url=="/deletetrucks"){
 			res.end("fake deleted trucks");
 		}else if (req.url=="/showtrucks"){
 			getAllLocations(db,function(db,docs){
-				res.setHeader("Access-Control-Allow-Origin", "*");
 				res.setHeader("Content-Type","json");
 				res.end(JSON.stringify(docs));
         	});
