@@ -77,6 +77,7 @@ var getAllLocations = function (db, callback){
 }
 
 function registerTruck(db,req,res,callback){
+	delete_as(db,function(){});
 	console.log("In register Truck");
     var body = '';
     req.on('data', function (data) {
