@@ -156,6 +156,8 @@ function handleRequest(req, res){
 			res.end("fake deleted trucks");
 		}else if (req.url=="/showtrucks"){
 			getAllLocations(db,function(db,docs){
+				res.setHeader("Access-Control-Allow-Origin", "*");
+				res.setHeader("Content-Type","json");
 				res.end(JSON.stringify(docs));
         	});
 		}else{
