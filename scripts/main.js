@@ -75,7 +75,6 @@ var getAllLocations = function (db, callback){
 }
 
 function registerTruck(db,req,res,callback){
-	delete_as(db,function(){});
 	console.log("In register Truck");
     var body = '';
     req.on('data', function (data) {
@@ -154,7 +153,8 @@ function handleRequest(req, res){
 	else if (req.method == 'GET') {
 		console.log("Got a GET");
 		if(req.url=="/deletetrucks"){
-			res.end("fake deleted trucks");
+			delete_as(db,function(){});
+			res.end("deleted trucks");
 		}else if (req.url=="/showtrucks"){
 			getAllLocations(db,function(db,docs){
 				res.setHeader("Content-Type","json");
