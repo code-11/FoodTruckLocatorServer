@@ -158,8 +158,9 @@ function handleRequest(req, res){
 			getAllLocations(db,function(db,docs){
 				res.end(JSON.stringify(docs));
         	});
-		}
-	    res.end('It Works!! Path Hit: ' + req.url);
+		}else{
+	    	res.end('It Works!! Path Hit: ' + req.url);
+	    }
 	}
 	else{
 		console.log("Got a something else:"+req.method);
