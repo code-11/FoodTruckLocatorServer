@@ -10,11 +10,6 @@ var url = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test';
 
 var DB=null;
 
-var getId=function(){
-	var rnd_num=Math.round(Math.random()*10);
-	return rnd_num;
-}
-
 var authenticate=function(db,token,callback){
 	options={
 		url:"https://www.googleapis.com/oauth2/v3/tokeninfo?id_token="+token,
@@ -64,8 +59,6 @@ var updateLocation=function(db,lat,lon,usertoken,istruck,callback){
 	    if (callback!=null){
 	    	callback(db);
 		}
-	    //findDocuments(db);
-	    // db.close();
   	});
 }
 
@@ -77,26 +70,10 @@ var getAllLocations = function (db, callback){
 	var all_locations=db.collection('trucks').find();
 	all_locations.toArray(function(err,docs){
 		assert.equal(err,null);
-		console.log(docs);
+		console.log("Giving client :"+docs);
 		callback(db,docs);
 	});
 }
-
-var findDocuments = function(db,callback) {
-	var cursor =db.collection('locations').find(
-		{"name":"xxx"}
-	);
-	cursor.each(function(err, doc) {
-		assert.equal(err, null);
-		if (doc != null) {
-			console.log("Found Document");
-
-			if (callback!=null){
-				callback(db,doc);
-			}
-		}
-	});
-};
 
 function registerTruck(db,req,res,callback){
 	console.log("In register Truck");
@@ -147,7 +124,7 @@ function innerWorkings(db,req,res){
 
     	// var regex=/lon=([\-0-9\.]*)&lat=([\-0-9\.]*)/
         var parsed=JSON.parse(body);
-        console.dir(parsed);
+        console.dir("Got stuff from client: "+parsed);
         updateLocation(db,parsed.lat,parsed.lon,parsed.userid, parsed.istruck, function(db){
 			console.log("After UpdateLocation");
 			getAllLocations(db,function(db,docs){
@@ -183,8 +160,7 @@ function handleRequest(req, res){
 }
 
 module.exports={
-	updateLocation: updateLocation,
-	findDocuments: findDocuments
+	updateLocation: updateLocation
 };
 
 MongoClient.connect(url,{}, function(err, db) {
