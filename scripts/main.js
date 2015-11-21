@@ -136,11 +136,11 @@ function innerWorkings(db,req,res){
 }
 
 function handleRequest(req, res){
+	res.setHeader("Access-Control-Allow-Origin", "*");
 	if (req.method == 'POST') {
 		console.log("Got a POST");
 		// console.log(req);
 		db=DB;
-		res.setHeader("Access-Control-Allow-Origin", "*");
 		res.setHeader("Content-Type","json");
 		console.log(req.url);
 		if (req.url=="/register"){
