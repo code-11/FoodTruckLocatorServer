@@ -70,8 +70,6 @@ var getAllLocations = function (db, callback){
 	var all_locations=db.collection('trucks').find();
 	all_locations.toArray(function(err,docs){
 		assert.equal(err,null);
-		console.log("Giving client :");
-		console.log(docs);
 		callback(db,docs);
 	});
 }
@@ -154,6 +152,13 @@ function handleRequest(req, res){
 		}
 	}
 	else if (req.method == 'GET') {
+		if(req.url=="/deletetrucks"){
+			res.end("fake deleted trucks");
+		}else if (req.url=="/showtrucks"){
+			getAllLocations(db,function(db,docs){
+				res.end(JSON.stringify(docs));
+        	});
+		}
 	    res.end('It Works!! Path Hit: ' + req.url);
 	}
 	else{
