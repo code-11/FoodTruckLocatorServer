@@ -161,6 +161,7 @@ function handleRequest(req, res){
 			delete_as(db,function(){});
 			res.end("deleted trucks");
 		}else if (req.url=="/deletetest"){
+			console.log("got a deletetruck");
 			delete_test(db,function(){});
 			res.end("deleted test truck");
 		}else if (req.url=="/showtrucks"){
