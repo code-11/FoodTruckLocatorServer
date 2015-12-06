@@ -4,12 +4,13 @@
   "description": "Some NPM test",
   "main": "scripts/main.js",
   "scripts": {
-    "test": "node scripts/server_test.js",
+    "test": "node scripts/test.js",
     "start": "node scripts/main.js"
   },
   "dependencies": {
     "google-auth-library": "^0.9.6",
-    "mongodb": "2.0.x"
+    "mongodb": "2.0.x",
+    "request": "1.x.x"
   },
   "author": "",
   "license": "ISC"
