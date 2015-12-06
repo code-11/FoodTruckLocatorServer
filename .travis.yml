@@ -1,3 +1,3 @@
 language: node_js
 script:
-   - node scripts/server_tests.js
+   - node scripts/tests.js
