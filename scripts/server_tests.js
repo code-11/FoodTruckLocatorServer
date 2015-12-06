@@ -17,7 +17,13 @@ function server_ping_test(callback){
 	});
 }
 
-console.log("Running Tests:");
-console.log("--------------");
-ping_test(flower_box);
+function run_all_server_tests(){
+	console.log("Running Server Tests:");
+	console.log("--------------");
+	ping_test(flower_box);
+}
+
+module.exports={
+	run_all_server_tests: run_all_server_tests
+};
 
