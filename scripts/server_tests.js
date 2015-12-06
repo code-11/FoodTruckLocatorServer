@@ -1,7 +1,3 @@
-var request = require('request');
-var assert = require('assert');
-var http = require('http');
-
 function flower_box(){
 	console.log("--------------");
 	console.log("Ran All Tests");
