@@ -68,7 +68,10 @@ var delete_as=function (db,callback){
 
 var delete_test=function(db,callback){
 	console.log("removing test truck");
-	db.collection("trucks").remove({"name":"?SERVERTEST"});
+	db.collection("trucks").remove({"name":"?SERVERTEST"}, function(err,result){
+		assert.equal(err, null);
+	    console.log(result);
+	});
 }
 
 var getAllLocations = function (db, callback){

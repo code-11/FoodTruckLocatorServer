@@ -25,6 +25,7 @@ function get_trucks_test(request,assert,callback){
 }
 
 function contains_test_truck(body){
+	console.log(body);
 	saw_test_truck=false;
 	for (var i=0;i<body.length;i+=1){
 		if (body[i]["name"]=="?SERVERTEST"){
@@ -67,10 +68,10 @@ function add_truck_test(request,assert,callback){
 				
 				assert.equal(err,null);
 				console.log("Deleting Test Truck");
-				request('https://foodinator.herokuapp.com/showtrucks', {}, function(err, res, body) {
+				request('https://foodinator.herokuapp.com/showtrucks', {}, function(err, res, new_body) {
 					
 					assert.equal(err,null);
-					assert.equal(contains_test_truck(JSON.parse(body)),false);
+					assert.equal(contains_test_truck(JSON.parse(new_body)),false);
 					console.log("Successfully Deleted Test Truck");
 					callback();
 				});
