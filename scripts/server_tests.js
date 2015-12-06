@@ -1,5 +1,5 @@
 var assert = require('assert');
-// var jquery = require('jquery');
+var http = require('http');
 
 // Can we make a get request to the server, ie is it up?
 function ping_test(){
