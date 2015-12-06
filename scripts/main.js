@@ -66,6 +66,11 @@ var delete_as=function (db,callback){
 	db.collection("trucks").remove({});
 }
 
+var delete_test=function(db,callback){
+	console.log("removing test truck");
+	db.collection("trucks").remove({"name":"?SERVERTEST"});
+}
+
 var getAllLocations = function (db, callback){
 	var all_locations=db.collection('trucks').find();
 	all_locations.toArray(function(err,docs){
@@ -155,6 +160,9 @@ function handleRequest(req, res){
 		if(req.url=="/deletetrucks"){
 			delete_as(db,function(){});
 			res.end("deleted trucks");
+		}else if (req.url=="/deletetest"){
+			delete_test(db,function(){});
+			res.end("deleted test truck");
 		}else if (req.url=="/showtrucks"){
 			getAllLocations(db,function(db,docs){
 				res.setHeader("Content-Type","json");
