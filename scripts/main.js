@@ -33,6 +33,7 @@ var authenticate=function(db,token,callback){
 
 var updateLocation=function(db,lat,lon,usertoken,istruck,callback){
 	// authenticate(db,usertoken,null);
+	//TODO: HAVE SERVER ACTUALL DO OAUTH RIGHT
 	//TODO: ADD TO HISTORICAL LOCATION COLLECTION
 	var dbtag="";
 	if (istruck){
@@ -55,7 +56,7 @@ var updateLocation=function(db,lat,lon,usertoken,istruck,callback){
 		{upsert:true},
 	 function(err, result) {
 	    assert.equal(err, null);
-	    console.log("Updated "+usertoken+" in the "+dbtag+" collection.");
+	    console.log("Updated "+usertoken+" in the "+dbtag+" collection updateLoc");
 	    if (callback!=null){
 	    	callback(db);
 		}
@@ -112,7 +113,7 @@ function registerTruck(db,req,res,callback){
 				{upsert:true},
 			 function(err, result) {
 			    assert.equal(err, null);
-			    console.log("Updated "+parsed.username+" in the trucks collection.");
+			    console.log("Updated "+parsed.username+" in the trucks collection: register");
 			    if (callback!=null){
 			    	callback(db);
 				}
