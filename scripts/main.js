@@ -153,6 +153,7 @@ function handleRequest(req, res){
 		console.log(req.url);
 		if (req.url=="/register"){
 			registerTruck(db,req,res,function(){
+				res.setHeader("Access-Control-Allow-Origin", "*");
 				res.end("Works");
 			});
 		}else{
