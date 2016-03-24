@@ -67,6 +67,10 @@ var delete_as=function (db,callback){
 	db.collection("trucks").remove({});
 }
 
+var delete_reporting=function(db,callback){
+	db.collection("reporting").remove({});
+}
+
 var delete_test=function(db,callback){
 	console.log("removing test truck");
 	db.collection("trucks").remove({"name":"?SERVERTEST"}, function(err,result){
@@ -81,6 +85,33 @@ var getAllLocations = function (db, callback){
 		assert.equal(err,null);
 		callback(db,docs);
 	});
+}
+
+var getAllReporting = function(db,callback){
+	var all_reporting=db.collection("reporting").find();
+	all_reporting.toArray(function(err,docs){
+		assert.equal(err,null);
+		callback(db,docs);
+	}
+}
+
+function report(db,req,res,callback){
+	var body = '';
+    req.on('data', function (data) {
+        body += data;
+    });
+    req.on('end', function () {
+        var parsed=JSON.parse(body);
+		db.collection("reporting").insert( 
+			parsed,
+			function(err, result) {
+			    assert.equal(err, null);
+			    console.log("Added report");
+			    if (callback!=null){
+			    	callback(db);
+				}
+		  	});
+    });
 }
 
 function registerTruck(db,req,res,callback){
@@ -156,6 +187,11 @@ function handleRequest(req, res){
 				res.setHeader("Access-Control-Allow-Origin", "*");
 				res.end("{}");
 			});
+		}else if(req.url=="/report"){
+			report(db,req,res,function(){
+				res.setHeader("Access-Control-Allow-Origin", "*");
+				res.end("{}");
+			});
 		}else{
 			innerWorkings(db,req,res);
 		}
@@ -174,6 +210,14 @@ function handleRequest(req, res){
 				res.setHeader("Content-Type","json");
 				res.end(JSON.stringify(docs));
         	});
+		}else if (req.url=="/showreports"){
+			getAllReporting(db,function(db,docs){
+				res.setHeader("Content-Type","json");
+				res.end(JSON.stringify(docs));
+        	});
+		}else if (req.url=="/deletereports"){
+			delete_reporting(db,function(){});
+			res.end("deleted reporting");
 		}else{
 	    	res.end('It Works!! Path Hit: ' + req.url);
 	    }
