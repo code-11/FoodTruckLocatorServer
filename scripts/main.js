@@ -92,7 +92,7 @@ var getAllReporting = function(db,callback){
 	all_reporting.toArray(function(err,docs){
 		assert.equal(err,null);
 		callback(db,docs);
-	}
+	});
 }
 
 function report(db,req,res,callback){
