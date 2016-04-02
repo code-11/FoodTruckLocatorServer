@@ -222,7 +222,6 @@ function handleRequest(req, res){
 				res.setHeader("Access-Control-Allow-Origin", "*");
 				res.end("{}");
 			});
-		}
 		}else{
 			innerWorkings(db,req,res);
 		}
