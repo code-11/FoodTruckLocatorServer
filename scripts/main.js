@@ -127,10 +127,7 @@ var getFavoritesForUser = function(db,req,res,callback){
 			{"name": parsed.userid},
 			{"favorites":1}
 		);
-		favorites.toArray(function(err,docs){
-			assert.equal(err,null);
-			callback(db,docs);
-		});
+		callback(db,tojson(docs));
 	});	
 }
 
