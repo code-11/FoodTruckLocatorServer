@@ -112,12 +112,18 @@ var setFavorite =function(db,req,res,callback){
     });
     req.on('end', function () {
         var parsed=JSON.parse(body);
-        console.log("IN SET FAVORITE");
-        console.log(parsed)
-		if (callback!=null){
-	    	callback(db);
-		}
-    });
+		db.collection(dbtag).update( 
+			{"name":parsed.userid},	
+			{ 
+				 $addToSet: { favorites: parsed.truckid } 
+			},
+			function(err, result) {
+			assert.equal(err, null);
+			console.log("Updated "+usertoken+" in the "+dbtag+" collection updateLoc");
+			if (callback!=null){
+				callback(db);
+			}
+  	});
 }
 
 function report(db,req,res,callback){
