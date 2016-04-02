@@ -105,6 +105,21 @@ var getAllUsers = function(db,callback){
 	});
 }
 
+var setFavorite =function(db,req,res,callback){
+	var body = '';
+    req.on('data', function (data) {
+        body += data;
+    });
+    req.on('end', function () {
+        var parsed=JSON.parse(body);
+        console.log("IN SET FAVORITE");
+        console.log(parsed)
+		if (callback!=null){
+	    	callback(db);
+		}
+    });
+}
+
 function report(db,req,res,callback){
 	var body = '';
     req.on('data', function (data) {
@@ -202,6 +217,12 @@ function handleRequest(req, res){
 				res.setHeader("Access-Control-Allow-Origin", "*");
 				res.end("{}");
 			});
+		}else if(req.url=="/favorite"){
+			setFavorite(db,req,res,function(){
+				res.setHeader("Access-Control-Allow-Origin", "*");
+				res.end("{}");
+			});
+		}
 		}else{
 			innerWorkings(db,req,res);
 		}
