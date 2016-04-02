@@ -123,7 +123,7 @@ var getFavoritesForUser = function(db,req,res,callback){
     });
     req.on('end', function () {
     	var parsed=JSON.parse(body);
-		var favorites=db.collection("users").find(
+		var favorites=db.collection("users").findOne(
 			{"name": parsed.userid},
 			{"favorites":1}
 		);
