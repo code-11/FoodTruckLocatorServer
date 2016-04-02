@@ -70,6 +70,9 @@ var delete_as=function (db,callback){
 var delete_reporting=function(db,callback){
 	db.collection("reporting").remove({});
 }
+var delete_users=function(db,callback){
+	db.collection("users").remove({});
+}
 
 var delete_test=function(db,callback){
 	console.log("removing test truck");
@@ -93,6 +96,13 @@ var getAllReporting = function(db,callback){
 		assert.equal(err,null);
 		callback(db,docs);
 	});
+}
+var getAllUsers = function(db,callback){
+	var all_users=db.collection("users").find();
+	all_users.toArray(function(err,docs){
+		assert.equal(err,null);
+		callback(db,docs);
+	}
 }
 
 function report(db,req,res,callback){
@@ -215,6 +225,15 @@ function handleRequest(req, res){
 				res.setHeader("Content-Type","json");
 				res.end(JSON.stringify(docs));
         	});
+		}else if (req.url=="/showusers"){
+			getAllUsers(db,function(db,docs){
+				res.setHeader("Content-Type","json");
+				res.end(JSON.stringify(docs));
+			});
+		}else if (req.url=="/deleteusers"){
+			delete_users(db,function(){});
+			res.end("deleted users");
+		}
 		}else if (req.url=="/deletereports"){
 			delete_reporting(db,function(){});
 			res.end("deleted reporting");
