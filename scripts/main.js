@@ -128,7 +128,7 @@ var getFavoritesForUser = function(db,req,res,callback){
 			{"favorites":1}
 		);
 		console.log("FAVORITE THING");
-		console.log(favorites);
+		console.log(favorites.favorites);
 		//callback(db,tojson(docs));
 	});	
 }
