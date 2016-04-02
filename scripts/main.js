@@ -123,7 +123,8 @@ var setFavorite =function(db,req,res,callback){
 			if (callback!=null){
 				callback(db);
 			}
-  	});
+		});
+	});
 }
 
 function report(db,req,res,callback){
