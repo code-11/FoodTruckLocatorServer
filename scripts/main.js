@@ -116,6 +116,8 @@ var getManyTrucks=function(db,truckids,callback){
 		callback(db,docs);
 	});
 }
+
+//Returns a javascript array of unqiue truck ids representing the favorites for a user into docs of the callback function
 var getFavoritesForUser = function(db,req,res,callback){
 	var body = '';
     req.on('data', function (data) {
@@ -128,8 +130,9 @@ var getFavoritesForUser = function(db,req,res,callback){
 			{"favorites":1}
 		);
 		favorites.toArray(function(err,docs){
-			console.log(docs[0]);
-			// callback(db,docs[0]);
+			if (callback!=null){
+				callback(db,docs[0].favorites);
+			}
 		});
 	});	
 }
