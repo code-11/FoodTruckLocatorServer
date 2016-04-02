@@ -233,7 +233,6 @@ function handleRequest(req, res){
 		}else if (req.url=="/deleteusers"){
 			delete_users(db,function(){});
 			res.end("deleted users");
-		}
 		}else if (req.url=="/deletereports"){
 			delete_reporting(db,function(){});
 			res.end("deleted reporting");
