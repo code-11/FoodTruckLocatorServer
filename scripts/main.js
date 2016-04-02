@@ -127,7 +127,9 @@ var getFavoritesForUser = function(db,req,res,callback){
 			{"name": parsed.userid},
 			{"favorites":1}
 		);
-		callback(db,tojson(docs));
+		console.log("FAVORITE THING");
+		console.log(favorites);
+		//callback(db,tojson(docs));
 	});	
 }
 
