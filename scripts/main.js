@@ -104,6 +104,23 @@ var getAllUsers = function(db,callback){
 		callback(db,docs);
 	});
 }
+var getFavoritesForUser = function(db,req,res,callback){
+	var body = '';
+    req.on('data', function (data) {
+        body += data;
+    });
+    req.on('end', function () {
+    	var parsed=JSON.parse(body);
+		var favorites=db.collection("users").find(
+			{"name": parsed.userid},
+			{"favorites":1}
+		);
+		favorites.toArray(function(err,docs){
+			assert.equal(err,null);
+			callback(db,docs);
+		}
+	});	
+}
 
 var setFavorite =function(db,req,res,callback){
 	var body = '';
@@ -119,9 +136,6 @@ var setFavorite =function(db,req,res,callback){
 			},
 			function(err, result) {
 			assert.equal(err, null);
-			
-
-
 			if (callback!=null){
 				callback(db);
 			}
@@ -229,6 +243,12 @@ function handleRequest(req, res){
 		}else if(req.url=="/favorite"){
 			setFavorite(db,req,res,function(){
 				res.setHeader("Access-Control-Allow-Origin", "*");
+				res.end("{}");
+			});
+		}else if(req.url=="/showfavorites"){
+			getFavoritesForUser(db,req,res,function(db,docs){
+				console.log("SHOW FAVORITES")
+				console.log(docs);
 				res.end("{}");
 			});
 		}else{
