@@ -123,13 +123,14 @@ var getFavoritesForUser = function(db,req,res,callback){
     });
     req.on('end', function () {
     	var parsed=JSON.parse(body);
-		var favorites=db.collection("users").findOne(
+		var favorites=db.collection("users").find(
 			{"name": parsed.userid},
 			{"favorites":1}
 		);
-		console.log("FAVORITE THING");
-		console.log(favorites.favorites);
-		//callback(db,tojson(docs));
+		favorites.toArray(function(err,docs){
+			console.log(docs[0]);
+			// callback(db,docs[0]);
+		});
 	});	
 }
 
