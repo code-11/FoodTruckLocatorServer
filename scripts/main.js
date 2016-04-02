@@ -104,6 +104,16 @@ var getAllUsers = function(db,callback){
 		callback(db,docs);
 	});
 }
+
+var getManyTrucks=function(db,truckids,callback){
+	var all_matching_trucks=db.collection("trucks").find(
+		{"name":{$in:truckids}}
+	);
+	all_matching_trucks.toArray(function(err,docs){
+		assert.equal(err,null);
+		callback(db,docs);
+	});
+}
 var getFavoritesForUser = function(db,req,res,callback){
 	var body = '';
     req.on('data', function (data) {
@@ -246,10 +256,10 @@ function handleRequest(req, res){
 				res.end("{}");
 			});
 		}else if(req.url=="/showfavorites"){
-			getFavoritesForUser(db,req,res,function(db,docs){
-				console.log("SHOW FAVORITES")
-				console.log(docs);
-				res.end("{}");
+			getFavoritesForUser(db,req,res,function(db,favs){
+				getManyTrucks(db,favs,function(db,docs){
+					res.end(JSON.stringify(docs));
+				});
 			});
 		}else{
 			innerWorkings(db,req,res);
