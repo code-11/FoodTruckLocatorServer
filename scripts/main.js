@@ -118,7 +118,7 @@ var getFavoritesForUser = function(db,req,res,callback){
 		favorites.toArray(function(err,docs){
 			assert.equal(err,null);
 			callback(db,docs);
-		}
+		});
 	});	
 }
 
