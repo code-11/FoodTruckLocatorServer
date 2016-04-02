@@ -106,6 +106,8 @@ var getAllUsers = function(db,callback){
 }
 
 var getManyTrucks=function(db,truckids,callback){
+	console.log("GET MANY TRUCKS");
+	console.log(truckids);
 	var all_matching_trucks=db.collection("trucks").find(
 		{"name":{$in:truckids}}
 	);
