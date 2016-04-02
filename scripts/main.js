@@ -132,8 +132,14 @@ var getFavoritesForUser = function(db,req,res,callback){
 		favorites.toArray(function(err,docs){
 			console.log("GET FAVORITES");
 			console.log(docs);
-			if (callback!=null){
-				callback(db,docs[0].favorites);
+			//If we got favorites correctly
+			if (docs[0].favorites){
+				if (callback!=null){
+					callback(db,docs[0].favorites);
+				}
+			//otherwise return empty array	
+			}else{
+				callback(db,[]);
 			}
 		});
 	});	
