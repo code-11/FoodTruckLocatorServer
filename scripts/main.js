@@ -102,7 +102,7 @@ var getAllUsers = function(db,callback){
 	all_users.toArray(function(err,docs){
 		assert.equal(err,null);
 		callback(db,docs);
-	}
+	});
 }
 
 function report(db,req,res,callback){
