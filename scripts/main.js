@@ -166,6 +166,27 @@ var setFavorite =function(db,req,res,callback){
 	});
 }
 
+var unsetFavorite =function(db,req,res,callback){
+	var body = '';
+    req.on('data', function (data) {
+        body += data;
+    });
+    req.on('end', function () {
+        var parsed=JSON.parse(body);
+		db.collection("users").update( 
+			{"name":parsed.userid},	
+			{ 
+				 $pull: { favorites: parsed.truckid } 
+			},
+			function(err, result) {
+			assert.equal(err, null);
+			if (callback!=null){
+				callback(db);
+			}
+		});
+	});
+}
+
 function report(db,req,res,callback){
 	var body = '';
     req.on('data', function (data) {
@@ -266,6 +287,10 @@ function handleRequest(req, res){
 		}else if(req.url=="/favorite"){
 			setFavorite(db,req,res,function(){
 				res.setHeader("Access-Control-Allow-Origin", "*");
+				res.end("{}");
+			});
+		}else if (req.url=="/unfavorite"){
+			unsetFavorite(db,req,res,function(){
 				res.end("{}");
 			});
 		}else if(req.url=="/showfavorites"){
