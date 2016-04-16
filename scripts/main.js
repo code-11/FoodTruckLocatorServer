@@ -165,7 +165,6 @@ var setFavorite =function(db,req,res,callback){
 		});
 	});
 }
-
 var unsetFavorite =function(db,req,res,callback){
 	var body = '';
     req.on('data', function (data) {
@@ -227,7 +226,6 @@ function registerTruck(db,req,res,callback){
 					},
 					"tinfo":{
 						"tname":parsed.truckname,
-						"city":parsed.city,
 						"tags":parsed.tags,
 						"msg":parsed.blurb,
 						"pic":parsed.truckpic
