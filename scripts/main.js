@@ -322,8 +322,7 @@ function handleRequest(req, res){
 			});
 		}else if (req.url=="/getTruckPictures"){
 			getTruckPictures(db,req,res,function(db,pics){
-				console.log(pics);
-				res.end("{}");
+				res.end(pics);
 				// res.end(pics);
 			});
 		}else{
