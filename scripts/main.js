@@ -322,7 +322,7 @@ function handleRequest(req, res){
 			});
 		}else if (req.url=="/getTruckPictures"){
 			getTruckPictures(db,req,res,function(db,pics){
-				res.end(pics);
+				res.end(JSON.stringify(pics));
 				// res.end(pics);
 			});
 		}else{
