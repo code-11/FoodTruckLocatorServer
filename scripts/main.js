@@ -149,6 +149,24 @@ var getFavoritesForUser = function(db,req,res,callback){
 	});	
 }
 
+//Return all pictures of a particular truck
+var getTruckPictures = function (db,req,res,callback){
+	var body = '';
+    req.on('data', function (data) {
+        body += data;
+    });
+    req.on('end', function () {
+		var parsed=JSON.parse(body);
+		var truck_pics=db.collection('trucks').find({"name":parsed.truckid},{"tinfo.menupic":1,"tinfo.pic":1});
+		truck_pics.toArray(function(err,docs){
+			assert.equal(err,null);
+			if (callback!=null){
+				callback(db,docs);
+			}
+		});
+	});
+}
+
 var setFavorite =function(db,req,res,callback){
 	var body = '';
     req.on('data', function (data) {
@@ -301,6 +319,12 @@ function handleRequest(req, res){
 				getManyTrucks(db,favs,function(db,docs){
 					res.end(JSON.stringify(docs));
 				});
+			});
+		}else if (req.url=="/getTruckPictures"){
+			getTruckPictures(db,req,res,function(db,pics){
+				console.log(pics);
+				res.end("{}");
+				// res.end(pics);
 			});
 		}else{
 			innerWorkings(db,req,res);
