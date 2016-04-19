@@ -82,8 +82,12 @@ var delete_test=function(db,callback){
 	});
 }
 
-var getAllLocations = function (db, callback){
-	var all_locations=db.collection('trucks').find();
+var getAllLocations = function (db,include_pics,callback){
+	if (include_pics){
+		var all_locations=db.collection('trucks').find();
+	}else{
+		var all_locations=db.collection('trucks').find({},{"tinfo.menupic":0,"tinfo.pic":0});
+	}
 	all_locations.toArray(function(err,docs){
 		assert.equal(err,null);
 		callback(db,docs);
@@ -257,7 +261,7 @@ function innerWorkings(db,req,res){
         console.dir("Got stuff from client: "+parsed);
         updateLocation(db,parsed.lat,parsed.lon,parsed.userid, parsed.istruck, function(db){
 			console.log("After UpdateLocation");
-			getAllLocations(db,function(db,docs){
+			getAllLocations(db,false,function(db,docs){
 				res.end(JSON.stringify(docs));
         	});
         	// delete_as(db);
@@ -312,7 +316,7 @@ function handleRequest(req, res){
 			delete_test(db,function(){});
 			res.end("deleted test truck");
 		}else if (req.url=="/showtrucks"){
-			getAllLocations(db,function(db,docs){
+			getAllLocations(db,true,function(db,docs){
 				res.setHeader("Content-Type","json");
 				res.end(JSON.stringify(docs));
         	});
