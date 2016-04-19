@@ -228,7 +228,8 @@ function registerTruck(db,req,res,callback){
 						"tname":parsed.truckname,
 						"tags":parsed.tags,
 						"msg":parsed.blurb,
-						"pic":parsed.truckpic
+						"pic":parsed.truckpic,
+						"menupic":parsed.menupic
 					}
 				},
 				{upsert:true},
